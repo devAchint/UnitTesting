@@ -28,16 +28,19 @@ class UtilTest {
         val password3 = "achintwadhwa"
         val password4 = "ahint*wadhwa"
         val password5 = "aCHINT45@"
+        val password6 = " fdklfjslkdj"
         val result1 = Util.checkPasswordValid(password1)
         val result2 = Util.checkPasswordValid(password2)
         val result3 = Util.checkPasswordValid(password3)
         val result4 = Util.checkPasswordValid(password4)
         val result5 = Util.checkPasswordValid(password5)
+        val result6 = Util.checkPasswordValid(password6)
         assertEquals(false, result1)
         assertEquals(false, result2)
         assertEquals(false, result3)
         assertEquals(false, result4)
         assertEquals(true, result5)
+        assertEquals(false, result6)
     }
 
 
