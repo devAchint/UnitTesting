@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:orientation="vertical"
+    tools:context=".sharedflow.FragmentFlow">
+
+    <TextView
+        android:id="@+id/shared_flow_counter_text"
+        android:layout_width="wrap_content"
+        android:layout_margin="8dp"
+        android:textSize="16sp"
+        android:layout_height="wrap_content"
+        android:text="shared flow" />
+    <TextView
+        android:id="@+id/state_flow_counter_text"
+        android:layout_width="wrap_content"
+        android:layout_margin="8dp"
+        android:textSize="16sp"
+        android:layout_height="wrap_content"
+        android:text="state flow" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/increase_count"
+        android:layout_width="wrap_content"
+        android:layout_height="48dp"
+        android:layout_marginStart="4dp"
+        android:text="Count"
+        android:textStyle="bold" />
+
+</LinearLayout>

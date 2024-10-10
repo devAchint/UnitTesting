@@ -1,29 +1,38 @@
-package com.techuntried.unittesting
+package com.techuntried.unittesting.sharedflow
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
-import androidx.navigation.fragment.findNavController
-import com.techuntried.unittesting.databinding.FragmentHomeBinding
-import com.techuntried.unittesting.sharedflow.FragmentFlow
+import com.techuntried.unittesting.databinding.FragmentFlowBinding
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asSharedFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
-class FragmentHome : Fragment() {
+class FragmentFlow : Fragment() {
 
-    private var _binding: FragmentHomeBinding? = null
+    companion object {
+        private val _sharedFlow = MutableSharedFlow<String>()
+        val sharedFlow = _sharedFlow.asSharedFlow()
+
+        private val _stateFlow = MutableStateFlow("state flow value")
+        val stateFlow = _stateFlow.asStateFlow()
+    }
+
+    private var _binding: FragmentFlowBinding? = null
     private val binding get() = _binding!!
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        _binding = FragmentHomeBinding.inflate(inflater, container, false)
+        _binding = FragmentFlowBinding.inflate(inflater, container, false)
 
         return binding.root
     }
@@ -33,26 +42,28 @@ class FragmentHome : Fragment() {
         setOnClickListeners()
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                FragmentFlow.sharedFlow.collect {
-                    Toast.makeText(context, it, Toast.LENGTH_SHORT).show()
+                sharedFlow.collect {
+                    binding.sharedFlowCounterText.text = it
                 }
             }
         }
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                FragmentFlow.stateFlow.collect {
-                    Toast.makeText(context, it, Toast.LENGTH_SHORT).show()
+                stateFlow.collect {
+                    binding.stateFlowCounterText.text = it
                 }
             }
         }
     }
 
     private fun setOnClickListeners() {
-        binding.loginButton.setOnClickListener {
-            findNavController().navigate(R.id.action_fragmentHome_to_fragmentLogin)
-        }
-        binding.sharedFlowButton.setOnClickListener {
-            findNavController().navigate(R.id.action_fragmentHome_to_fragmentFlow)
+        var count = 0
+        binding.increaseCount.setOnClickListener {
+            count++
+            lifecycleScope.launch {
+                _sharedFlow.emit("Shared Count is $count")
+                _stateFlow.emit("State Count is $count")
+            }
         }
     }
 

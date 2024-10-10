@@ -13,10 +13,18 @@
         <action
             android:id="@+id/action_fragmentHome_to_fragmentLogin"
             app:destination="@id/fragmentLogin" />
+        <action
+            android:id="@+id/action_fragmentHome_to_fragmentFlow"
+            app:destination="@id/fragmentSharedFlow" />
     </fragment>
     <fragment
         android:id="@+id/fragmentLogin"
         android:name="com.techuntried.unittesting.FragmentLogin"
         android:label="fragment_login"
         tools:layout="@layout/fragment_login" />
+    <fragment
+        android:id="@+id/fragmentSharedFlow"
+        android:name="com.techuntried.unittesting.sharedflow.FragmentFlow"
+        android:label="fragment_shared_flow"
+        tools:layout="@layout/fragment_flow" />
 </navigation>
